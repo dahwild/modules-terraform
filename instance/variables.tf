@@ -15,3 +15,6 @@ variable "sg_name" {
 variable "ingress_rule" {
   
 }
+variable "egress_rule" {
+  
+}
