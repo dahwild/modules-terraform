@@ -29,4 +29,15 @@ resource "aws_instance" "dahwild-instance" {
     instance_type = var.instance_type
     tags = var.tags
     security_groups = ["${aws_security_group.ssh_connection.name}"]
+    #se crea el provisioner para conectarse de forma remota.
+    provisioner "remote-exec" {
+      connection {
+        type = "ssh"
+        user = "ubuntu"
+        private_key = "${file("~/terraform/amazon-keypair-ohio.pem")}"
+        host = self.public_ip
+      }
+      #Esta es la parte que hace el aprovisionamiento
+      inline = ["echo hello","docker run -it -d -p 80:80 dahwild/hello-nginx:1.0"]
+    }
 }
